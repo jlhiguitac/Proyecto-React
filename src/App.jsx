@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import Conversor from './Conversor'
 
@@ -10,17 +10,31 @@ function App() {
   function cambiarUsuario(evento) {
     setUsuario(evento.target.value)
   }
+
   function cambiarClave(evento) {
     setClave(evento.target.value)
   }
-  function ingresar() {
-    if (usuario == 'admin' && clave == 'admin'){
-      alert('Estas adentro Maaestro')
-      setLogueado(true)
+  
+  async function ingresar() {
+    //conección con el backend
+    const peticion = await fetch('http://localhost:3000/login?usuario=' + usuario + '&clave=' + clave, { credentials: 'include' })
+    if (peticion.ok) {
+      setLogueado(true)      
     }else{
-      alert('Usuario o clave incorrecto')
+      alert('Usuario o clave incorrectos')
     }
   }
+  
+  async function validar() {
+    const peticion = await fetch('http://localhost:3000/validar', { credentials: 'include' })
+    if (peticion.ok) {
+      setLogueado(true)      
+    }
+  }
+
+  useEffect(() => {
+    validar()
+  }, []) // con esa lista en blanco se esta referenciando a que se carga una vez se visualice la página web
 
   if(logueado){
     return (

@@ -35,7 +35,8 @@ function Conversor() {
       <h3>Conversor de voz a texto</h3>
       <button onClick={grabarVozATexto}>Grabar</button>
       <br />
-      {vozATexto}
+      <p>{vozATexto}</p>
+      
     </>
   )
   
